@@ -1,1 +1,1 @@
-# study_LFS
+# study_Linux from Scratch
