@@ -1,10 +1,7 @@
 # Study_Linux from Scratch
 
-## 基礎資料
-- Linux from Scratch資料一覧
-  - http://lfsbookja.osdn.jp/7.10/
-
 ## LFSとは
+- = Linux from Scratch
 - Linuxシステムの動作の仕組みを勉強するために提供されている教材。
 - 以下のような必須パッケージを含む
   - http://lfsbookja.osdn.jp/7.10/prologue/package-choices.html
@@ -15,11 +12,9 @@
   - FHS(File Hierarchy System)
   - LSB(Linux Standard Base)
     - LSB Core
-      - At,Batch,Cpio,Ed,Fcontab,initd-tools,Lsb_release,NSPR,NSS,PAM,Pax,Sendmail,time
     - LSB Desktop
     - LSB Runtime Language
     - LSB Imaging
-    - コンパイラ、リンカ−、シェル等
 
 
 ## LFSのセットアップ
@@ -37,16 +32,15 @@
   - yum -y install xz
   - yum -y install texinfo  ※makeinfoはtexinfoパッケージにあるので注意
 - パーティションを作成
-  - / (10GB)
+  - / (15GB)
   - swap (メモリの2倍)
   - /boot(100MB)
-  - /home
-  - /usr
-  - /opt
-  - /tmp
-  - /usr/src
 - VirtualBox上でHDDディスクを定義
 - パーティション作成
+  - 以下を想定
+    - / (15GB
+    - swap (メモリの2倍)
+    - /boot(100MB)
   - まとめは以下
     - http://eng-entrance.com/linux-make-filesystem
   - fdisk -l
@@ -68,8 +62,6 @@
 - パッケージダウンロードを楽にするためにツールwget-listをインストール
   - wget --input-file=wget-list --continue
 
-
-
 #### 4. 一時的環境の準備
 #### 基本パッケージのインストール
 #### LFSシステムの構築
@@ -79,7 +71,8 @@
 
 
 ## 参考
+- Linux from Scratch資料一覧
+  - http://lfsbookja.osdn.jp/7.10/
 - LFS構築
   - http://note.kurodigi.com/lfs77-part1/
   - http://shain.blog.conextivo.com/2015/01/lfs_on_virtualbox.html#more
-
