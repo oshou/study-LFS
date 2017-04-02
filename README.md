@@ -36,6 +36,11 @@
   - リンカ、アセンブラ等のオブジェクトファイルを扱うプログラムを提供
 
 ## LFSのセットアップ
+
+#### 0.必要資料のダウンロード
+- 以下サイトから今回導入するLFSのバージョンを選定。手順書PDFファイルをダウンロード
+  - http://lfsbookja.osdn.jp/
+
 #### 1. ホストシステムの選定
 - Vagrant+VirtualBoxの構成でCentOS6.7を選定
 
@@ -71,11 +76,29 @@
 - ソースディレクトリ作成
   - mkdir -vp $LFS/sources
   - chmod -v a+wt $LFS/sources
-- パッケージダウンロードを楽にするためにツールwget-listをインストール
-  - wget
+- ダウンロード対象パッケージリストを取得
+  - 以下サイトから対象LFSバージョンのwget-listを取得
+    - http://lfsbookja.osdn.jp/
+  - wget wget-listダウンロードURL
+- ダウンロード対象パッケージリストからダウンロード
   - wget --input-file=wget-list --continue --directory-prefix=$LFS/sources
+- パッケージ正当性チェック用のチェックサムファイルを配置
+  - 以下サイトから対象LFSバージョンのチェックサムファイルを取得
+    - http://lfsbookja.osdn.jp/
+  - pushed $LFS/sources
+  - md5sum -c md5sums
 
 #### 4. 一時的環境の準備
+- ビルド済プログラム格納用のディレクトリ作成、トップリンク作成
+  - mkdir -v $LFS/tools
+  - ln -sv $LFS/tools /
+- 作業用ユーザーの追加
+  - groupadd lfs
+  - useradd -s /bin/bash -g lfs -m -k /dev/null lfs
+  - passwd lfs
+  - chown -v lfs $LFS/tools
+  - chown -v lfs $LFS/sources
+
 #### 基本パッケージのインストール
 #### LFSシステムの構築
 #### ベースシステムの設定
