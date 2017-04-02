@@ -2,9 +2,12 @@
 
 ## LFSとは
 - = Linux from Scratch
-- Linuxシステムの動作の仕組みを勉強するために提供されている教材。
-- 以下のような必須パッケージを含む
-  - http://lfsbookja.osdn.jp/7.10/prologue/package-choices.html
+- Linuxシステムの動作の仕組みを勉強するための教材。
+- Linuxを1からカーネル等も含めて全て手作業でソースコンパイルする。
+- 流れとしては
+  - LFS環境構準備用の環境構築
+　- LFS環境の構築
+  - LFS環境から起動し直す
 
 ## LFSの標準
 - 以下標準に準拠している
@@ -45,10 +48,9 @@
     - http://eng-entrance.com/linux-make-filesystem
   - fdisk -l
   - fdisk /dev/xxx ※基本パーティション、番号1、シリング1〜+15Gで作成、最後はw(書込)
-  - fdisk -l
-- ファイルシステム作成
+- ファイルシステム作成(今回はext4)
   - mkfs.ext4 /dev/sdd1
-- 作業パーティション用変数LFSの設定
+- 作業用ユーザの.bashrcに作業DocumentRoot用変数LFSを指定
   - export LFS=/mnt/lfs
 - マウントポイント作成、マウント
   - mkdir -vp $LFS
