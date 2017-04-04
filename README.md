@@ -20,20 +20,46 @@
     - LSB Imaging
 
 ## 使用するパッケージ
-- Acl
+- acl
   - アクセス制御リスト(Access Control List)
-- Attr
+- attr
   - ファイルシステムオブジェクトの拡張属性を管理
-- Autoconf
+- autoconf
   - テンプレートを元にソースコードを自動作成する
-- Automake
+- automake
   - テンプレートファイルからMakefileを作成
-- Bash
+- bash
   - Bourneシェル
-- Bc
+- bc
   - 任意精度の演算処理言語を提供
-- Binutils
-  - リンカ、アセンブラ等のオブジェクトファイルを扱うプログラムを提供
+- binutils
+  - リンカ、アセンブラ等のオブジェクトファイルを扱うプログラム
+- bison
+  - yacc(Yet Another Compiler Compiler)のGNUバージョン
+- bzip2
+  - ファイルの圧縮・拡張を行うプログラム
+- check
+  - 他プログラムに対するテストハーネス
+- coreutils
+  - ファイルやディレクトリを参照or操作するための基本プログラム
+- dejagnu
+  - 他プログラムのテストフレームワーク
+- diffutils
+  - ファイル、ディレクトリ間の差異を表示するプログラム
+- e2fsprogs
+  - ext2,ext3,ext4の各ファイルシステムを扱うユーティリティプログラム
+- eudev
+  - デバイスマネージャ
+- expat
+  - 比較的小規模のXML解析ライブラリ
+- expect
+  - 他プログラムと対話型プログラムを通じてやりとりを行うプログラム
+- file
+  - 指定されたファイルの種類を判別するユーティリティ
+- findutils
+  - ファイルシステム上のファイル検索を行うプログラム
+- flex
+  - テキスト内の特定パターンの認識
 
 ## LFSのセットアップ
 
@@ -65,7 +91,7 @@
   - fdisk /dev/xxx #基本パーティション、番号1、シリング1〜+15Gで作成、最後はw(書込)
 - ファイルシステム作成(今回はext4)
   - mkfs.ext4 /dev/sdd1
-- 作業用ユーザの.bashrcにLFS構築用のocumentRoot用変数LFSを定義
+- 作業用ユーザの.bashrcにLFS構築用のドキュメントルート用変数LFSを定義
   - export LFS=/mnt/lfs
 - マウントポイント作成、マウント
   - mkdir -vp $LFS
@@ -96,10 +122,39 @@
   - groupadd lfs
   - useradd -s /bin/bash -g lfs -m -k /dev/null lfs
   - passwd lfs
-  - chown -v lfs $LFS/tools
-  - chown -v lfs $LFS/sources
+  - chown -Rv lfs $LFS/tools
+  - chown -Rv lfs $LFS/sources
+  - su - lfs
+- 作業用ユーザーのスタートアップ設定を追加
+  - cat ~/.bash_profile << "EOF"
+exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
+EOF
+  - cat ~/.bashrc << "EOF"
+set +h
+umask 022
+LFS=/mnt/lfs
+LC_ALL=POSIX
+LFS_TGT=$(uname -m)-lfs-linux-gnu
+PATH=/tools/bin:/bin:/usr/bin
+export LFS LC_ALL LFS_TGT PATH
+EOF
+  - source ~/.bash_profile
+  - source ~/.bashrc
 
 #### 基本パッケージのインストール
+- binutilsのインストール
+  - su - lfs
+  - cd $LFS/sources
+  - tar xf binutils-xxxx.tar.bz2
+  - mkdir -v build
+  - cd build
+  - ../binutils-xxxx/configure  --prefix=tools        \
+                                --with-sysroot=$LFS   \
+                                --with-lib-path=/tools/lib  \
+                                --target=$LFS_TGT   \
+                                --disable-nls \
+                                --disable-werror
+
 #### LFSシステムの構築
 #### ベースシステムの設定
 #### カーネル&ブートローダーの設定
